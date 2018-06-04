@@ -76,7 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../lib/glew</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../lib/glew;$(SolutionDir)../lib</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -106,7 +106,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../lib/glew</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../lib/glew;$(SolutionDir)../lib</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -142,10 +142,12 @@
     <ClInclude Include="..\src\camera.h" />
     <ClInclude Include="..\src\common.h" />
     <ClInclude Include="..\src\Entity.h" />
+    <ClInclude Include="..\src\material.h" />
     <ClInclude Include="..\src\mesh.h" />
     <ClInclude Include="..\src\model.h" />
     <ClInclude Include="..\src\shader.h" />
     <ClInclude Include="..\src\state.h" />
+    <ClInclude Include="..\src\texture.h" />
     <ClInclude Include="..\src\vertex.h" />
     <ClInclude Include="..\src\world.h" />
   </ItemGroup>
@@ -155,10 +157,12 @@
     <ClCompile Include="..\src\camera.cpp" />
     <ClCompile Include="..\src\Entity.cpp" />
     <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\material.cpp" />
     <ClCompile Include="..\src\mesh.cpp" />
     <ClCompile Include="..\src\model.cpp" />
     <ClCompile Include="..\src\shader.cpp" />
     <ClCompile Include="..\src\state.cpp" />
+    <ClCompile Include="..\src\texture.cpp" />
     <ClCompile Include="..\src\vertex.cpp" />
     <ClCompile Include="..\src\world.cpp" />
   </ItemGroup>

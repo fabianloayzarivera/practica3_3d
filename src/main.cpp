@@ -93,13 +93,16 @@ int main() {
 	glm::vec4 c1( 1,  1, 1, 1);	
 	glm::vec4 c2( 1,  1, 1, 1);
 	glm::vec4 c3( 1,  1, 1, 1);
+	glm::vec2 uv1(0, 0);
+	glm::vec2 uv2(0, 0);
+	glm::vec2 uv3(0, 0);
 
 	// define triangle
 	std::vector<Vertex> vertices = {
 		
-		Vertex(v1,c1),
-		Vertex(v2,c2),
-		Vertex(v3,c3)
+		Vertex(v1,uv1),
+		Vertex(v2,uv1),
+		Vertex(v3,uv1)
 
 	};
 
