@@ -81,60 +81,78 @@ int main() {
 
 	//State::defaultShader->use();
 	std::shared_ptr<World> world(new World());
-	std::shared_ptr<Camera> camera1(new Camera(60.0f,(float)SCREEN_WIDTH ,(float)SCREEN_HEIGHT,0.1f, 1000.0f));
-	camera1->setClearColor(glm::vec3(0, 0, 0));
-	camera1->setPosition(glm::vec3(0, 0, 6));
+	std::shared_ptr<Camera> camera1(new Camera(60.0f,(float)SCREEN_WIDTH ,(float)SCREEN_HEIGHT,0.1f, 100.0f));
+	camera1->setClearColor(glm::vec3(1, 1, 1));
+	camera1->setPosition(glm::vec3(0, 1, 3));
+	camera1->setRotation(glm::vec3(-20, 0, 0));
 	world->addEntity(camera1);
-
+	
 	//--- Creating a buffer 
-	glm::vec3 v1( 0,  0.5, 0);
-	glm::vec3 v2(-0.5, -0.5, 0);
-	glm::vec3 v3(0.5, -0.5, 0);
-	glm::vec4 c1( 1,  1, 1, 1);	
-	glm::vec4 c2( 1,  1, 1, 1);
-	glm::vec4 c3( 1,  1, 1, 1);
-	glm::vec2 uv1(0, 0);
-	glm::vec2 uv2(0, 0);
-	glm::vec2 uv3(0, 0);
+	glm::vec3 v1(-1, -1,  1);
+	glm::vec3 v2( 1, -1,  1);
+	glm::vec3 v3( 1,  1,  1);
+	glm::vec3 v4(-1,  1,  1);
+	glm::vec3 v5( 1, -1, -1);
+	glm::vec3 v6( 1,  1, -1);
+	glm::vec3 v7(-1, -1, -1);
+	glm::vec3 v8(-1,  1, -1);
 
-	// define triangle
+	glm::vec2 uv1(0, 0);
+	glm::vec2 uv2(1, 0);
+	glm::vec2 uv3(1, 1);
+	glm::vec2 uv4(0, 1);
+
+
 	std::vector<Vertex> vertices = {
-		
-		Vertex(v1,uv1),
-		Vertex(v2,uv1),
-		Vertex(v3,uv1)
+
+		Vertex(v1,uv1), //0
+		Vertex(v2,uv2), //1
+		Vertex(v3,uv3), //2
+		Vertex(v4,uv4), //3
+		Vertex(v2,uv1), //4
+		Vertex(v5,uv2), //5
+		Vertex(v6,uv3), //6
+		Vertex(v3,uv4), //7
+		Vertex(v5,uv1), //8
+		Vertex(v7,uv2), //9
+		Vertex(v8,uv3), //10
+		Vertex(v6,uv4), //11
+		Vertex(v7,uv1), //12
+		Vertex(v1,uv2), //13
+		Vertex(v4,uv3), //14
+		Vertex(v8,uv4), //15
+		Vertex(v4,uv1), //16
+		Vertex(v3,uv2), //17
+		Vertex(v5,uv3), //18
+		Vertex(v7,uv4)	//19
+
 
 	};
 
-	std::vector<uint32_t> indexes = {0,1,2};
-	// store triangle in vram
-	std::shared_ptr<Buffer> buffer(new Buffer(vertices, indexes));
+	std::vector<uint16_t> indexesTop = {16,17,6, 16,6,15, 0,1,18, 0,18,19};
 
-	//------------------------------
-	std::shared_ptr<Mesh> mesh(new Mesh());
-	mesh->addBuffer(buffer);
+	std::vector<uint16_t> indexesFront = { 0,1,2, 0,2,3, 4,5,6, 4,6,7, 8,9,10, 8,10,11, 12,13,14, 12,14,15};
 
-	int x = -3;
-	int y = 0;
-	int z = 0;
+	std::shared_ptr<Texture> texTop = Texture::load("data/top.png");
+	std::shared_ptr<Texture> texFront = Texture::load("data/front.png");
 
-	for (int i = 0; i < 3; i++)
-	{
-		z = 0;
-		for (int j = 0; j < 3; j++)
-		{
-			std::shared_ptr<Model> model(new Model(mesh));
-			model->setPosition(glm::vec3(x, y, z));
-			model->setRotation(glm::vec3(0, 0, 0));
-			model->setScale(glm::vec3(1, 1, 1));
-			world->addEntity(model);
-			z -= 3;
-		}
-		x += 3;
-	}	
+	std::shared_ptr<Buffer> bufferTop = std::make_shared<Buffer>(vertices, indexesTop);
+	std::shared_ptr<Buffer> bufferFront = std::make_shared<Buffer>(vertices, indexesFront);
+
+	std::shared_ptr<Material> materialTop = std::make_shared<Material>(texTop);
+	std::shared_ptr<Material> materialFront = std::make_shared<Material>(texFront);
+
+	std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
+	mesh->addBuffer(bufferTop, *materialTop);
+	mesh->addBuffer(bufferFront, *materialFront);
+
+	std::shared_ptr<Model> modelCube = std::make_shared<Model>(mesh);
+	modelCube->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
+	world->addEntity(modelCube);
+	//------------------------------	
 	
 	float angle = 0;
-	float angleVariation = 32.0f;
+	float angleVariation = 62.0f;
 
 	double lastTime = glfwGetTime();
 	while ( !glfwWindowShouldClose(win) && !glfwGetKey(win, GLFW_KEY_ESCAPE) ) {

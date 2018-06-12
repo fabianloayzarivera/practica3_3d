@@ -10,8 +10,11 @@ Material::Material(const std::shared_ptr<Texture>& tex , const std::shared_ptr<S
 void Material::prepare() 
 {
 	this->getShader()->use();
-	glUniform1i(this->getShader()->getLocation("texSampler"), 0);
-	//NEW UNIFORM VARIABLES???
+	
+	glm::mat4 MVP = State::projectionMatrix * State::viewMatrix * State::modelMatrix;
+
+	this->getShader()->setMatrix(this->getShader()->getLocation("MVP"), MVP);
+	this->getShader()->setInt(this->getShader()->getLocation("texSampler"), 0);
 	if (texture)
 		glBindTexture(GL_TEXTURE_2D, texture->getId());
 }

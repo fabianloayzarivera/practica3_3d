@@ -5,4 +5,4 @@ varying vec2 ftex;
 void main() {
 	gl_Position = MVP * vec4(vpos, 1);
 	ftex = vtex;
-}
+}

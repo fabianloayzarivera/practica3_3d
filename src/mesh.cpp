@@ -1,8 +1,8 @@
 #include "mesh.h"
 
-void Mesh::addBuffer(const std::shared_ptr<Buffer>& buffer, const std::shared_ptr<Shader>& shader) 
+void Mesh::addBuffer(const std::shared_ptr<Buffer>& buffer, const Material& _material)
 {
-	buffers.push_back(std::pair<std::shared_ptr<Buffer>, std::shared_ptr<Shader>>(buffer, shader));
+	buffers.push_back(std::pair<std::shared_ptr<Buffer>, Material>(buffer, _material));
 }
 
 size_t Mesh::getNumBuffers() const 
@@ -23,19 +23,9 @@ std::shared_ptr<Buffer>& Mesh::getBuffer(size_t index)
 void Mesh::draw() 
 {
 	for (auto pairIt = buffers.begin(); pairIt != buffers.end(); ++pairIt) {
-		
-		glm::mat4 mvp = glm::mat4();
-		mvp = State::projectionMatrix * State::viewMatrix * State::modelMatrix;
-		State::defaultShader->setMatrix(State::defaultShader->getLocation("mvp"), mvp);
-
-		if ((*pairIt).second != nullptr){
-			(*pairIt).second->use();
-			(*pairIt).first->draw(*((*pairIt).second));
-		}
-		else {
-			State::defaultShader->use();
-			(*pairIt).first->draw(*State::defaultShader);
-		}
-		
+		std::shared_ptr<Buffer> buff = pairIt->first;
+		Material &m = pairIt->second;
+		m.prepare();
+		buff->draw(*m.getShader());
 	}
 }

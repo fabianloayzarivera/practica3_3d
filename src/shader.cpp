@@ -64,18 +64,25 @@ Shader::Shader(std::string vertexCode, std::string fragmentCode)
 	// use program and get locations
 	vPosLoc = glGetAttribLocation(program, "vpos");
 	vColorLoc = glGetAttribLocation(program, "vcolor");
+	vTexLoc = glGetAttribLocation(program, "vtex");
 }
 
 void Shader::setupAttribs() const 
 {
 	if (vPosLoc != -1) {
 		glEnableVertexAttribArray(vPosLoc);
-		glVertexAttribPointer(vPosLoc, 3, GL_FLOAT, false, sizeof(Vertex), reinterpret_cast<const void*>(offsetof(Vertex, pos.x)));
+		glVertexAttribPointer(vPosLoc, 3, GL_FLOAT, false, sizeof(Vertex), reinterpret_cast<const void*>(offsetof(Vertex, pos)));
 
 	}
 	if (vColorLoc != -1) {
 		glEnableVertexAttribArray(vColorLoc);
-		glVertexAttribPointer(vColorLoc, 4, GL_FLOAT, false, sizeof(Vertex), reinterpret_cast<const void*>(offsetof(Vertex, color.r)));
+		glVertexAttribPointer(vColorLoc, 4, GL_FLOAT, false, sizeof(Vertex), reinterpret_cast<const void*>(offsetof(Vertex, color)));
+
+	}
+
+	if (vTexLoc != -1) {
+		glEnableVertexAttribArray(vTexLoc);
+		glVertexAttribPointer(vTexLoc, 2, GL_FLOAT, false, sizeof(Vertex), reinterpret_cast<const void*>(offsetof(Vertex, uv)));
 
 	}
 		

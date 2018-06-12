@@ -12,6 +12,7 @@ private:
 	std::string fragmentShaderSource;
 	int vPosLoc;
 	int vColorLoc;
+	int vTexLoc;
 	glm::mat4 mvp;
 
 protected:
